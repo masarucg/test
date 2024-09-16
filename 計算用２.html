@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>計算ページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label, p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            margin-left: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function calculate() {
+            let shimei = parseFloat(document.getElementById("shimei").value) || 0;
+            let seki = parseFloat(document.getElementById("seki").value) || 0;
+            let douhan = document.getElementById("douhan").checked ? shimei : 0;
+            let subtotal = parseFloat(document.getElementById("subtotal").value) || 0;
+
+            // 総小計（1000円未満切り上げ）
+            let total1 = Math.ceil((shimei + seki + douhan + subtotal) / 1000) * 1000;
+            document.getElementById("total1").innerText = total1;
+
+            // 総合計（1000円未満切り上げして1.43倍）
+            let total2 = Math.ceil(total1 * 1.43 / 1000) * 1000;
+            document.getElementById("total2").innerText = total2;
+        }
+    </script>
+</head>
+<body>
+    <h1>計算ページ</h1>
+    <label>指名料: <input type="number" id="shimei" oninput="calculate()" placeholder="指名料を入力"> 円</label><br>
+    <label>席料: <input type="number" id="seki" oninput="calculate()" placeholder="席料を入力"> 円</label><br>
+    <label>同伴料: <input type="checkbox" id="douhan" onclick="calculate()"> (指名料と同額)</label><br>
+    <label>他小計: <input type="number" id="subtotal" oninput="calculate()" placeholder="他小計を入力"> 円</label><br>
+
+    <div class="result">
+        <p>1. 総小計: <span id="total1">0</span> 円</p>
+        <p>2. 総合計: <span id="total2">0</span> 円</p>
+    </div>
+</body>
+</html>
